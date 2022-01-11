@@ -6,13 +6,19 @@ GET http://127.0.0.1:8080/api/user/3
 
 ###
 POST http://127.0.0.1:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "Yoga@gmail.com",
+    "password": "123456"
+}
 
 ###
 POST http://127.0.0.1:8080/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Yoga",
+    "name": "Yoga123",
     "email": "Yoga@gmail.com",
     "password": "123456",
     "gender_id": 1

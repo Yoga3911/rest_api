@@ -22,11 +22,20 @@ func NewAuthController(authS services.AuthService) AuthController {
 }
 
 func (a *authController) Login(c *fiber.Ctx) error {
-	return c.JSON(helper.BuildResponse("success", true, "Login"))
+	user := new(models.Login)
+	err := c.BodyParser(user)
+	if err != nil {
+		return c.Status(fiber.StatusNotAcceptable).JSON(helper.BuildResponse(err.Error(), false, nil))
+	}
+	err2 := a.authS.VerifyCredential(c.Context(), *user)
+	if err2 != nil {
+		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err2.Error(), false, nil))
+	}
+	return c.JSON(helper.BuildResponse("success", true, nil))
 }
 
 func (a *authController) Register(c *fiber.Ctx) error {
-	user := new(models.User)
+	user := new(models.Register)
 	err := c.BodyParser(user)
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(helper.BuildResponse(err.Error(), false, nil))

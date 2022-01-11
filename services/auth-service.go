@@ -2,15 +2,15 @@ package services
 
 import (
 	"context"
+	"fmt"
 	"rest_api/models"
 
-	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type AuthService interface {
-	CreateUser(ctx context.Context, user models.User) error
-	VerifyCredential(ctx context.Context, user models.User) pgx.Row
+	CreateUser(ctx context.Context, user models.Register) error
+	VerifyCredential(ctx context.Context, user models.Login) error
 }
 
 type authService struct {
@@ -23,7 +23,7 @@ func NewAuthService(db *pgxpool.Pool) AuthService {
 
 const addUser = `INSERT INTO users(name, email, password, gender_id, create_at, update_at) VALUES($1, $2, $3, $4, now(), now())`
 
-func (a *authService) CreateUser(ctx context.Context, user models.User) error {
+func (a *authService) CreateUser(ctx context.Context, user models.Register) error {
 	_, err := a.db.Exec(ctx, addUser, user.Name, user.Email, user.Password, user.GenderID)
 	if err != nil {
 		return err
@@ -33,8 +33,17 @@ func (a *authService) CreateUser(ctx context.Context, user models.User) error {
 
 const getByEmail = `SELECT email, password FROM users WHERE email = $1`
 
-func (a *authService) VerifyCredential(ctx context.Context, user models.User) pgx.Row {
+func (a *authService) VerifyCredential(ctx context.Context, user models.Login) error {
 	pgx := a.db.QueryRow(ctx, getByEmail, user.Email)
+	u := new(models.Login)
+	err := pgx.Scan(&u.Email, &u.Password)
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
 
-	return pgx
+	if u.Password != user.Password {
+		return fmt.Errorf("invalid credential")
+	}
+
+	return nil
 }
