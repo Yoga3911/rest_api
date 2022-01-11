@@ -38,7 +38,7 @@ func (a *authService) VerifyCredential(ctx context.Context, user models.Login) e
 	u := new(models.Login)
 	err := pgx.Scan(&u.Email, &u.Password)
 	if err != nil {
-		return fmt.Errorf(err.Error())
+		return err
 	}
 
 	if u.Password != user.Password {

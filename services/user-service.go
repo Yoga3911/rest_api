@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
 	"rest_api/models"
 
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -27,14 +26,14 @@ func (u *userService) GetAll(ctx context.Context) ([]*models.User, error) {
 	var users []*models.User
 	pgx, err := u.db.Query(ctx, getAll)
 	if err != nil {
-		return nil, fmt.Errorf(err.Error())
+		return nil, err
 	}
 
 	for pgx.Next() {
 		var u models.User
 		err2 := pgx.Scan(&u.ID, &u.Name, &u.Email, &u.Password, &u.GenderID, &u.CreateAt, &u.UpdateAt)
 		if err2 != nil {
-			return nil, fmt.Errorf(err2.Error())
+			return nil, err
 		}
 		users = append(users, &u)
 	}

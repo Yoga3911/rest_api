@@ -2,7 +2,7 @@
 GET http://127.0.0.1:8080/api/users
 
 ###
-GET http://127.0.0.1:8080/api/user/3
+GET http://127.0.0.1:8080/api/user/9
 
 ###
 POST http://127.0.0.1:8080/api/auth/login
@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
     "email": "Yoga@gmail.com",
-    "password": "123456"
+    "password": "1234567"
 }
 
 ###
@@ -20,7 +20,7 @@ Content-Type: application/json
 {
     "name": "Yoga123",
     "email": "Yoga@gmail.com",
-    "password": "123456",
+    "password": "1234",
     "gender_id": 1
 }
 

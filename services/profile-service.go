@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"fmt"
 	"rest_api/models"
 
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -26,7 +25,7 @@ const updateUser = `UPDATE users SET name = $2, email = $3, password = $4, gende
 func (p *profileService) Update(ctx context.Context, user models.User, id string) error {
 	_, err := p.db.Exec(ctx, updateUser, id, user.Name, user.Email, user.Password, user.GenderID)
 	if err != nil {
-		return fmt.Errorf(err.Error())
+		return err
 	}
 	return nil
 }
@@ -36,7 +35,7 @@ const deleteUser = `DELETE FROM users WHERE id = $1`
 func (p *profileService) Delete(ctx context.Context, id string) error {
 	_, err := p.db.Exec(ctx, deleteUser, id)
 	if err != nil {
-		return fmt.Errorf(err.Error())
+		return err
 	}
 	return nil
 }
