@@ -1,6 +1,10 @@
 package controllers
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"rest_api/helper"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 type UserController interface {
 	GetUser(c *fiber.Ctx) error
@@ -16,9 +20,9 @@ func NewUserController() UserController {
 }
 
 func (u *userController) GetUser(c *fiber.Ctx) error {
-	return c.SendString("GetUser")
+	return helper.BuildResponse(c, "success", true, "Get User")
 }
 
 func (u *userController) GetAllUser(c *fiber.Ctx) error {
-	return c.SendString("GetAllUser")
+	return helper.BuildResponse(c, "success", true, "Get All User")
 }

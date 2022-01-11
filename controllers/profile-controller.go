@@ -1,6 +1,10 @@
 package controllers
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"rest_api/helper"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 type ProfileController interface {
 	UpdateUser(c *fiber.Ctx) error
@@ -15,9 +19,9 @@ func NewProfileController() ProfileController {
 }
 
 func (p *profileController) UpdateUser(c *fiber.Ctx) error {
-	return c.SendString("Update")
+	return helper.BuildResponse(c, "success", true, "Update User")
 }
 
 func (p *profileController) DeleteUser(c *fiber.Ctx) error {
-	return c.SendString("Delete")
+	return helper.BuildResponse(c, "success", true, "Delete User")
 }
