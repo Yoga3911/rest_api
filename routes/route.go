@@ -15,7 +15,8 @@ var (
 	userC controllers.UserController = controllers.NewUserController(userS)
 	authS services.AuthService = services.NewAuthService(DB)
 	authC controllers.AuthController = controllers.NewAuthController(authS)
-	profileC controllers.ProfileController = controllers.NewProfileController()
+	profileS services.ProfileService = services.NewProfileService(DB)
+	profileC controllers.ProfileController = controllers.NewProfileController(profileS)
 )
 
 func Route(app *fiber.App) {

@@ -36,13 +36,16 @@ func (uc *userController) GetUser(c *fiber.Ctx) error {
 func (uc *userController) GetAllUser(c *fiber.Ctx) error {
 	users, err := uc.userS.GetAll(c.Context())
 	if err != nil {
-		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err.Error(), false, nil))
+		return c.Status(fiber.StatusNotAcceptable).JSON(helper.BuildResponse(err.Error(), false, nil))
 	}
 	var user []*models.User
 
 	for users.Next() {
 		var u models.User
-		users.Scan(&u.ID, &u.Name, &u.Email, &u.Password, &u.GenderID, &u.CreateAt, &u.UpdateAt)
+		err2 := users.Scan(&u.ID, &u.Name, &u.Email, &u.Password, &u.GenderID, &u.CreateAt, &u.UpdateAt)
+		if err2 != nil {
+			return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err2.Error(), false, nil))
+		}
 		user = append(user, &u)
 	}
 

@@ -2,7 +2,7 @@
 GET http://127.0.0.1:8080/api/users
 
 ###
-GET http://127.0.0.1:8080/api/user/2
+GET http://127.0.0.1:8080/api/user/1
 
 ###
 POST http://127.0.0.1:8080/api/auth/login
@@ -19,7 +19,15 @@ Content-Type: application/json
 }
 
 ###
-PUT http://127.0.0.1:8080/api/profile/user/1
+PUT http://127.0.0.1:8080/api/profile/user/3
+Content-Type: application/json
+
+{
+    "name": "Yoga2",
+    "email": "yoga3911@gmail.com",
+    "password": "999999",
+    "gender_id": 1
+}
 
 ###
-DELETE http://127.0.0.1:8080/api/profile/user/1
+DELETE http://127.0.0.1:8080/api/profile/user/5

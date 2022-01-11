@@ -29,7 +29,7 @@ func (a *authController) Register(c *fiber.Ctx) error {
 	user := new(models.User)
 	err := c.BodyParser(user)
 	if err != nil {
-		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err.Error(), false, nil))
+		return c.Status(fiber.StatusNotAcceptable).JSON(helper.BuildResponse(err.Error(), false, nil))
 	}
 	err2 := a.authS.CreateUser(c.Context(), *user)
 	if err2 != nil {
