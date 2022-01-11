@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"rest_api/routes"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 func main() {
-	fmt.Println("Test")
+	app := fiber.New(fiber.Config{
+		Prefork: true,
+		StreamRequestBody: true,
+	})
+	routes.Route(app)
+	app.Listen("127.0.0.1:8080")
 }
