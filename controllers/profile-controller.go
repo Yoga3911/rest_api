@@ -19,9 +19,9 @@ func NewProfileController() ProfileController {
 }
 
 func (p *profileController) UpdateUser(c *fiber.Ctx) error {
-	return helper.BuildResponse(c, "success", true, "Update User")
+	return c.JSON(helper.BuildResponse("success", true, "Update User"))
 }
 
 func (p *profileController) DeleteUser(c *fiber.Ctx) error {
-	return helper.BuildResponse(c, "success", true, "Delete User")
+	return c.JSON(helper.BuildResponse("success", true, "Delete User"))
 }

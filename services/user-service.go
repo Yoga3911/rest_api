@@ -9,7 +9,7 @@ import (
 )
 
 type UserService interface {
-	GetById()
+	GetById(ctx context.Context, id string) (pgx.Row)
 	GetAll(ctx context.Context) (pgx.Rows, error)
 }
 
@@ -21,10 +21,6 @@ func NewUserService(db *pgxpool.Pool) UserService {
 	return &userService{db: db}
 }
 
-func (u *userService) GetById() {
-
-}
-
 const getAll = `SELECT * FROM users`
 
 func (u *userService) GetAll(ctx context.Context) (pgx.Rows, error) {
@@ -33,4 +29,11 @@ func (u *userService) GetAll(ctx context.Context) (pgx.Rows, error) {
 		return nil, fmt.Errorf(err.Error())
 	}
 	return pgx, nil
+}
+
+const getById = `SELECT * FROM users WHERE id = $1`
+
+func (u *userService) GetById(ctx context.Context, id string) (pgx.Row) {
+	pgx := u.db.QueryRow(ctx, getById, id)
+	return pgx
 }

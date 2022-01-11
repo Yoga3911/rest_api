@@ -1,15 +1,14 @@
 package main
 
 import (
-	"rest_api/routes"
-
 	"github.com/gofiber/fiber/v2"
+	"rest_api/routes"
 )
 
 func main() {
-
+	defer routes.DB.Close()
 	app := fiber.New(fiber.Config{
-		Prefork: true,
+		Prefork:           true,
 		StreamRequestBody: true,
 	})
 	routes.Route(app)

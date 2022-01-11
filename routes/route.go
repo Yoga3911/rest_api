@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	db *pgxpool.Pool = config.DatabaseConnection()
-	userS services.UserService = services.NewUserService(db)
+	DB *pgxpool.Pool = config.DatabaseConnection()
+	userS services.UserService = services.NewUserService(DB)
 	userC controllers.UserController = controllers.NewUserController(userS)
 	authC controllers.AuthController = controllers.NewAuthController()
 	profileC controllers.ProfileController = controllers.NewProfileController()

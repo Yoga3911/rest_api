@@ -19,9 +19,9 @@ func NewAuthController() AuthController {
 }
 
 func (a *authController) Login(c *fiber.Ctx) error {
-	return helper.BuildResponse(c, "success", true, "Login")
+	return c.JSON(helper.BuildResponse("success", true, "Login"))
 }
 
 func (a *authController) Register(c *fiber.Ctx) error {
-	return helper.BuildResponse(c, "success", true, "Register")
+	return c.JSON(helper.BuildResponse("success", true, "Register"))
 }

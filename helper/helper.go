@@ -2,10 +2,10 @@ package helper
 
 import "github.com/gofiber/fiber/v2"
 
-func BuildResponse(c *fiber.Ctx, m string, s bool, d interface{}) error {
-	return c.JSON(fiber.Map{
+func BuildResponse(m interface{}, s bool, d interface{}) interface{} {
+	return fiber.Map{
 		"message": m,
 		"status":  s,
 		"data":    d,
-	})
+	}
 }

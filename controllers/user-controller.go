@@ -21,14 +21,22 @@ func NewUserController(userS services.UserService) UserController {
 	return &userController{userService: userS}
 }
 
-func (u *userController) GetUser(c *fiber.Ctx) error {
-	return helper.BuildResponse(c, "success", true, "Get User")
+func (uc *userController) GetUser(c *fiber.Ctx) error {
+	id := c.Params("id")
+	user := uc.userService.GetById(c.Context(), id)
+
+	var u models.User
+	err := user.Scan(&u.ID, &u.Name, &u.Email, &u.Password, &u.GenderID, &u.CreateAt, &u.UpdateAt)
+	if err != nil {
+		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err.Error(), false, nil))
+	}
+	return c.JSON(helper.BuildResponse("success", true, u))
 }
 
-func (u *userController) GetAllUser(c *fiber.Ctx) error {
-	users, err := u.userService.GetAll(c.Context())
+func (uc *userController) GetAllUser(c *fiber.Ctx) error {
+	users, err := uc.userService.GetAll(c.Context())
 	if err != nil {
-		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(c, err.Error(), false, nil))
+		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err.Error(), false, nil))
 	}
 	var user []*models.User
 
@@ -38,5 +46,5 @@ func (u *userController) GetAllUser(c *fiber.Ctx) error {
 		user = append(user, &u)
 	}
 
-	return helper.BuildResponse(c, "success", true, user)
+	return c.JSON(helper.BuildResponse("success", true, user))
 }
