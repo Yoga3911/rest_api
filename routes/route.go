@@ -1,13 +1,18 @@
 package routes
 
 import (
+	"rest_api/config"
 	"rest_api/controllers"
+	"rest_api/services"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 var (
-	userC controllers.UserController = controllers.NewUserController()
+	db *pgxpool.Pool = config.DatabaseConnection()
+	userS services.UserService = services.NewUserService(db)
+	userC controllers.UserController = controllers.NewUserController(userS)
 	authC controllers.AuthController = controllers.NewAuthController()
 	profileC controllers.ProfileController = controllers.NewProfileController()
 )
