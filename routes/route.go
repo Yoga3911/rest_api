@@ -9,6 +9,7 @@ import (
 var (
 	userC controllers.UserController = controllers.NewUserController()
 	authC controllers.AuthController = controllers.NewAuthController()
+	profileC controllers.ProfileController = controllers.NewProfileController()
 )
 
 func Route(app *fiber.App) {
@@ -19,6 +20,6 @@ func Route(app *fiber.App) {
 	api.Post("/auth/register", authC.Register)
 	api.Post("/auth/login", authC.Login)
 
-	// api.Put("/profile/user/:id")
-	// api.Delete("/profile/user/:id")
+	api.Put("/profile/user/:id", profileC.UpdateUser)
+	api.Delete("/profile/user/:id", profileC.DeleteUser)
 }

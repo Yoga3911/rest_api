@@ -9,3 +9,9 @@ POST http://127.0.0.1:8080/api/auth/login
 
 ###
 POST http://127.0.0.1:8080/api/auth/register
+
+###
+PUT http://127.0.0.1:8080/api/profile/user/1
+
+###
+DELETE http://127.0.0.1:8080/api/profile/user/1
