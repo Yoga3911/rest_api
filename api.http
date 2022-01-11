@@ -2,7 +2,7 @@
 GET http://127.0.0.1:8080/api/users
 
 ###
-GET http://127.0.0.1:8080/api/user/1
+GET http://127.0.0.1:8080/api/user/3
 
 ###
 POST http://127.0.0.1:8080/api/auth/login
