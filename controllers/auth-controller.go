@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"rest_api/helper"
+	"rest_api/models"
+	"rest_api/services"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -12,10 +14,11 @@ type AuthController interface {
 }
 
 type authController struct {
+	authS services.AuthService
 }
 
-func NewAuthController() AuthController {
-	return &authController{}
+func NewAuthController(authS services.AuthService) AuthController {
+	return &authController{authS: authS}
 }
 
 func (a *authController) Login(c *fiber.Ctx) error {
@@ -23,5 +26,15 @@ func (a *authController) Login(c *fiber.Ctx) error {
 }
 
 func (a *authController) Register(c *fiber.Ctx) error {
-	return c.JSON(helper.BuildResponse("success", true, "Register"))
+	user := new(models.User)
+	err := c.BodyParser(user)
+	if err != nil {
+		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err.Error(), false, nil))
+	}
+	err2 := a.authS.CreateUser(c.Context(), *user)
+	if err2 != nil {
+		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err2.Error(), false, nil))
+	}
+
+	return c.JSON(helper.BuildResponse("success", true, nil))
 }

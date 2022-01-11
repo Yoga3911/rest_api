@@ -14,16 +14,16 @@ type UserController interface {
 }
 
 type userController struct {
-	userService services.UserService
+	userS services.UserService
 }
 
 func NewUserController(userS services.UserService) UserController {
-	return &userController{userService: userS}
+	return &userController{userS: userS}
 }
 
 func (uc *userController) GetUser(c *fiber.Ctx) error {
 	id := c.Params("id")
-	user := uc.userService.GetById(c.Context(), id)
+	user := uc.userS.GetById(c.Context(), id)
 
 	var u models.User
 	err := user.Scan(&u.ID, &u.Name, &u.Email, &u.Password, &u.GenderID, &u.CreateAt, &u.UpdateAt)
@@ -34,7 +34,7 @@ func (uc *userController) GetUser(c *fiber.Ctx) error {
 }
 
 func (uc *userController) GetAllUser(c *fiber.Ctx) error {
-	users, err := uc.userService.GetAll(c.Context())
+	users, err := uc.userS.GetAll(c.Context())
 	if err != nil {
 		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err.Error(), false, nil))
 	}

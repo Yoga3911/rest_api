@@ -9,6 +9,14 @@ POST http://127.0.0.1:8080/api/auth/login
 
 ###
 POST http://127.0.0.1:8080/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Yoga",
+    "email": "Yoga@gmail.com",
+    "password": "123456",
+    "gender_id": 1
+}
 
 ###
 PUT http://127.0.0.1:8080/api/profile/user/1

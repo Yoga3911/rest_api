@@ -13,7 +13,8 @@ var (
 	DB *pgxpool.Pool = config.DatabaseConnection()
 	userS services.UserService = services.NewUserService(DB)
 	userC controllers.UserController = controllers.NewUserController(userS)
-	authC controllers.AuthController = controllers.NewAuthController()
+	authS services.AuthService = services.NewAuthService(DB)
+	authC controllers.AuthController = controllers.NewAuthController(authS)
 	profileC controllers.ProfileController = controllers.NewProfileController()
 )
 
