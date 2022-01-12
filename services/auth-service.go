@@ -6,11 +6,13 @@ import (
 	"rest_api/models"
 
 	"github.com/jackc/pgx/v4/pgxpool"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthService interface {
 	CreateUser(ctx context.Context, user models.Register) error
 	VerifyCredential(ctx context.Context, user models.Login) error
+	FindByEmail(ctx context.Context, email string) string
 }
 
 type authService struct {
@@ -24,11 +26,16 @@ func NewAuthService(db *pgxpool.Pool) AuthService {
 const addUser = `INSERT INTO users(name, email, password, gender_id, create_at, update_at) VALUES($1, $2, $3, $4, now(), now())`
 
 func (a *authService) CreateUser(ctx context.Context, user models.Register) error {
+	duplicate := a.FindByEmail(ctx, user.Email)
+	if duplicate == "duplicate" {
+		return fmt.Errorf("duplicate")
+	}
+	user.Password = hasAndSalt([]byte(user.Password))
 	_, err := a.db.Exec(ctx, addUser, user.Name, user.Email, user.Password, user.GenderID)
 	if err != nil {
 		return err
 	}
-	return nil
+	return fmt.Errorf(duplicate)
 }
 
 const getByEmail = `SELECT email, password FROM users WHERE email = $1`
@@ -40,10 +47,40 @@ func (a *authService) VerifyCredential(ctx context.Context, user models.Login) e
 	if err != nil {
 		return err
 	}
-
-	if u.Password != user.Password {
+	compare := comparePwd(u.Password, []byte(user.Password))
+	if !compare {
 		return fmt.Errorf("invalid credential")
 	}
-
+	
 	return nil
+}
+
+const findByEmail = `SELECT email FROM users WHERE email = $1`
+
+func (a *authService) FindByEmail(ctx context.Context, email string) string {
+	pgx := a.db.QueryRow(ctx, findByEmail, email)
+	var user models.User
+	pgx.Scan(&user.Email)
+	if user.Email == email {
+		return "duplicate"
+	}
+	return ""
+}
+
+func hasAndSalt(pwd []byte) string {
+	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
+	if err != nil {
+		panic(err.Error())
+	}
+	return string(hash)
+}
+
+func comparePwd(hashPwd string, plainPwd []byte) bool {
+	byteHash := []byte(hashPwd)
+	err := bcrypt.CompareHashAndPassword(byteHash, plainPwd)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	return true
 }

@@ -27,6 +27,12 @@ func (a *authController) Login(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(helper.BuildResponse(err.Error(), false, nil))
 	}
+
+	errors := helper.ErrorHandler(user)
+	if errors != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(errors)
+	}
+
 	err2 := a.authS.VerifyCredential(c.Context(), *user)
 	if err2 != nil {
 		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err2.Error(), false, nil))
@@ -40,8 +46,14 @@ func (a *authController) Register(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusNotAcceptable).JSON(helper.BuildResponse(err.Error(), false, nil))
 	}
+
+	errors := helper.ErrorHandler(user)
+	if errors != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(errors)
+	}
+
 	err2 := a.authS.CreateUser(c.Context(), *user)
-	if err2 != nil {
+	if err2.Error() == "duplicate" {
 		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err2.Error(), false, nil))
 	}
 
