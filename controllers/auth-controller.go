@@ -23,8 +23,8 @@ func NewAuthController(authS services.AuthService) AuthController {
 
 func (a *authController) Login(c *fiber.Ctx) error {
 	var user models.Login
+	
 	err := c.BodyParser(&user)
-
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
 	}
@@ -34,9 +34,9 @@ func (a *authController) Login(c *fiber.Ctx) error {
 		return helper.BuildResponse(c, fiber.StatusBadRequest, errors, false, nil)
 	}
 
-	err2 := a.authS.VerifyCredential(c.Context(), user)
-	if err2 != nil {
-		return helper.BuildResponse(c, fiber.StatusConflict, err2.Error(), false, nil)
+	err = a.authS.VerifyCredential(c.Context(), user)
+	if err != nil {
+		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
 	}
 
 	return helper.BuildResponse(c, fiber.StatusOK, "Login success", true, nil)
@@ -44,8 +44,8 @@ func (a *authController) Login(c *fiber.Ctx) error {
 
 func (a *authController) Register(c *fiber.Ctx) error {
 	var user models.Register
+	
 	err := c.BodyParser(&user)
-
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
 	}
@@ -55,9 +55,9 @@ func (a *authController) Register(c *fiber.Ctx) error {
 		return helper.BuildResponse(c, fiber.StatusBadRequest, errors, false, nil)
 	}
 
-	err2 := a.authS.CreateUser(c.Context(), user)
-	if err2.Error() == "duplicate" {
-		return helper.BuildResponse(c, fiber.StatusConflict, err2.Error(), false, nil)
+	err = a.authS.CreateUser(c.Context(), user)
+	if err.Error() == "duplicate" {
+		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
 	}
 
 	return helper.BuildResponse(c, fiber.StatusOK, "Register success", true, nil)

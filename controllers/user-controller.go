@@ -22,8 +22,8 @@ func NewUserController(userS services.UserService) UserController {
 
 func (uc *userController) GetUser(c *fiber.Ctx) error {
 	id := c.Params("id")
+	
 	user, err := uc.userS.GetById(c.Context(), id)
-
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
 	}
@@ -33,7 +33,6 @@ func (uc *userController) GetUser(c *fiber.Ctx) error {
 
 func (uc *userController) GetAllUser(c *fiber.Ctx) error {
 	users, err := uc.userS.GetAll(c.Context())
-
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
 	}

@@ -24,15 +24,15 @@ func NewProfileController(profileS services.ProfileService) ProfileController {
 func (p *profileController) UpdateUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 	user := new(models.User)
+	
 	err := c.BodyParser(user)
-
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
 	}
 
-	err2 := p.profileS.Update(c.Context(), *user, id)
-	if err2 != nil {
-		return helper.BuildResponse(c, fiber.StatusConflict, err2.Error(), false, nil)
+	err = p.profileS.Update(c.Context(), *user, id)
+	if err != nil {
+		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
 	}
 
 	return helper.BuildResponse(c, fiber.StatusOK, "Update success", true, nil)
@@ -40,8 +40,8 @@ func (p *profileController) UpdateUser(c *fiber.Ctx) error {
 
 func (p *profileController) DeleteUser(c *fiber.Ctx) error {
 	id := c.Params("id")
+	
 	err := p.profileS.Delete(c.Context(), id)
-
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
 	}

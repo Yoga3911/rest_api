@@ -2,15 +2,15 @@
 GET http://127.0.0.1:8080/api/users
 
 ###
-GET http://127.0.0.1:8080/api/user/100
+GET http://127.0.0.1:8080/api/user/3
 
 ###
 POST http://127.0.0.1:8080/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "yoga3911@gmail.com",
-    "password": "999999"
+    "email": "Yoga3911@gmail.com",
+    "password": "mantap"
 }
 
 ###
@@ -18,22 +18,22 @@ POST http://127.0.0.1:8080/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Yoga46",
-    "email": "Yoga13gmail.com",
-    "password": "123456",
+    "name": "Yoga99",
+    "email": "Yoga131@gmail.com",
+    "password": "yyooggaa2020",
     "gender_id": 2
 }
 
 ###
-PUT http://127.0.0.1:8080/api/profile/user/1
+PUT http://127.0.0.1:8080/api/profile/user/10
 Content-Type: application/json
 
 {
-    "name": "Yoga46",
+    "name": "Yoga100",
     "email": "Yoga3911@gmail.com",
     "password": "mantap",
     "gender_id": 1
 }
 
 ###
-DELETE http://127.0.0.1:8080/api/profile/user/6
+DELETE http://127.0.0.1:8080/api/profile/user/2

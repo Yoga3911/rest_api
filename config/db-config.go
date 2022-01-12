@@ -12,7 +12,7 @@ import (
 func DatabaseConnection() *pgxpool.Pool {
 	err := godotenv.Load()
 	if err != nil {
-		panic("Cant load env file")
+		panic(err)
 	}
 
 	dbHost := os.Getenv("DB_HOST")
@@ -22,9 +22,9 @@ func DatabaseConnection() *pgxpool.Pool {
 	dbPort := os.Getenv("DB_PORT")
 	dsn := fmt.Sprintf("postgres://%s:%s@%s:%s/%s", dbUser, dbPass, dbHost, dbPort, dbName)
 
-	pgx, err2 := pgxpool.Connect(context.Background(), dsn)
-	if err2 != nil {
-		panic("Cant connect to database")
+	pgx, err := pgxpool.Connect(context.Background(), dsn)
+	if err != nil {
+		panic(err)
 	}
 
 	return pgx

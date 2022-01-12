@@ -31,8 +31,8 @@ func (u *userService) GetAll(ctx context.Context) ([]*models.User, error) {
 
 	for pgx.Next() {
 		var u models.User
-		err2 := pgx.Scan(&u.ID, &u.Name, &u.Email, &u.Password, &u.GenderID, &u.CreateAt, &u.UpdateAt)
-		if err2 != nil {
+		err = pgx.Scan(&u.ID, &u.Name, &u.Email, &u.Password, &u.GenderID, &u.CreateAt, &u.UpdateAt)
+		if err != nil {
 			return nil, err
 		}
 		users = append(users, &u)

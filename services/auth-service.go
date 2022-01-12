@@ -29,11 +29,13 @@ func (a *authService) CreateUser(ctx context.Context, user models.Register) erro
 	if duplicate == "duplicate" {
 		return fmt.Errorf("duplicate")
 	}
+
 	user.Password = hasAndSalt([]byte(user.Password))
 	_, err := a.db.Exec(ctx, addUser, user.Name, user.Email, user.Password, user.GenderID)
 	if err != nil {
 		return err
 	}
+	
 	return fmt.Errorf(duplicate)
 }
 
