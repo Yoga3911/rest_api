@@ -23,6 +23,7 @@ func NewProfileService(db *pgxpool.Pool) ProfileService {
 const updateUser = `UPDATE users SET name = $2, email = $3, password = $4, gender_id = $5, update_at = now() WHERE id = $1`
 
 func (p *profileService) Update(ctx context.Context, user models.User, id string) error {
+	user.Password = hasAndSalt([]byte(user.Password))
 	_, err := p.db.Exec(ctx, updateUser, id, user.Name, user.Email, user.Password, user.GenderID)
 	if err != nil {
 		return err

@@ -22,40 +22,43 @@ func NewAuthController(authS services.AuthService) AuthController {
 }
 
 func (a *authController) Login(c *fiber.Ctx) error {
-	user := new(models.Login)
-	err := c.BodyParser(user)
+	var user models.Login
+	err := c.BodyParser(&user)
+
 	if err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(helper.BuildResponse(err.Error(), false, nil))
+		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
 	}
 
 	errors := helper.ErrorHandler(user)
 	if errors != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(errors)
+		return helper.BuildResponse(c, fiber.StatusBadRequest, errors, false, nil)
 	}
 
-	err2 := a.authS.VerifyCredential(c.Context(), *user)
+	err2 := a.authS.VerifyCredential(c.Context(), user)
 	if err2 != nil {
-		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err2.Error(), false, nil))
+		return helper.BuildResponse(c, fiber.StatusConflict, err2.Error(), false, nil)
 	}
-	return c.JSON(helper.BuildResponse("success", true, nil))
+
+	return helper.BuildResponse(c, fiber.StatusOK, "Login success", true, nil)
 }
 
 func (a *authController) Register(c *fiber.Ctx) error {
-	user := new(models.Register)
-	err := c.BodyParser(user)
+	var user models.Register
+	err := c.BodyParser(&user)
+
 	if err != nil {
-		return c.Status(fiber.StatusNotAcceptable).JSON(helper.BuildResponse(err.Error(), false, nil))
+		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
 	}
 
 	errors := helper.ErrorHandler(user)
 	if errors != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(errors)
+		return helper.BuildResponse(c, fiber.StatusBadRequest, errors, false, nil)
 	}
 
-	err2 := a.authS.CreateUser(c.Context(), *user)
+	err2 := a.authS.CreateUser(c.Context(), user)
 	if err2.Error() == "duplicate" {
-		return c.Status(fiber.StatusConflict).JSON(helper.BuildResponse(err2.Error(), false, nil))
+		return helper.BuildResponse(c, fiber.StatusConflict, err2.Error(), false, nil)
 	}
 
-	return c.JSON(helper.BuildResponse("success", true, nil))
+	return helper.BuildResponse(c, fiber.StatusOK, "Register success", true, nil)
 }

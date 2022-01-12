@@ -12,7 +12,7 @@ type ErrorResponse struct {
 }
 
 func ErrorHandler(user interface{}) []*ErrorResponse {
-	var errors []*ErrorResponse 
+	var errors []*ErrorResponse
 	validated := validator.New()
 	err := validated.Struct(user)
 	if err != nil {
@@ -27,10 +27,10 @@ func ErrorHandler(user interface{}) []*ErrorResponse {
 	return errors
 }
 
-func BuildResponse(m interface{}, s bool, d interface{}) interface{} {
-	return fiber.Map{
+func BuildResponse(c *fiber.Ctx, fs int, m interface{}, s bool, d interface{}) error {
+	return c.Status(fs).JSON(fiber.Map{
 		"message": m,
 		"status":  s,
 		"data":    d,
-	}
+	})
 }

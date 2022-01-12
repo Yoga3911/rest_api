@@ -20,7 +20,7 @@ func NewUserService(db *pgxpool.Pool) UserService {
 	return &userService{db: db}
 }
 
-const getAll = `SELECT * FROM users`
+const getAll = `SELECT * FROM users ORDER BY id`
 
 func (u *userService) GetAll(ctx context.Context) ([]*models.User, error) {
 	var users []*models.User
