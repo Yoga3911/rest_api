@@ -22,26 +22,30 @@ func NewProfileController(profileS services.ProfileService) ProfileController {
 }
 
 func (p *profileController) UpdateUser(c *fiber.Ctx) error {
-	id := c.Params("id")
-	user := new(models.User)
+	var user models.User
 	
-	err := c.BodyParser(user)
+	err := c.BodyParser(&user)
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
 	}
-
-	err = p.profileS.Update(c.Context(), *user, id)
+	
+	err = p.profileS.Update(c.Context(), user)
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
 	}
-
+	
 	return helper.BuildResponse(c, fiber.StatusOK, "Update success", true, nil)
 }
 
-func (p *profileController) DeleteUser(c *fiber.Ctx) error {
-	id := c.Params("id")
+func (p *profileController) DeleteUser(c *fiber.Ctx) error {	
+	var user models.User
 	
-	err := p.profileS.Delete(c.Context(), id)
+	err := c.BodyParser(&user)
+	if err != nil {
+		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
+	}
+	
+	err = p.profileS.Delete(c.Context(), user.ID)
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
 	}

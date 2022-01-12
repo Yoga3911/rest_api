@@ -27,6 +27,6 @@ func Route(app *fiber.App) {
 	api.Post("/auth/register", authC.Register)
 	api.Post("/auth/login", authC.Login)
 
-	api.Put("/profile/user/:id", profileC.UpdateUser)
-	api.Delete("/profile/user/:id", profileC.DeleteUser)
+	api.Put("/profile/user", profileC.UpdateUser)
+	api.Delete("/profile/user", profileC.DeleteUser)
 }

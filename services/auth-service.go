@@ -11,7 +11,6 @@ import (
 type AuthService interface {
 	CreateUser(ctx context.Context, user models.Register) error
 	VerifyCredential(ctx context.Context, user models.Login) error
-	FindByEmail(ctx context.Context, email string) string
 }
 
 type authService struct {
@@ -25,7 +24,7 @@ func NewAuthService(db *pgxpool.Pool) AuthService {
 const addUser = `INSERT INTO users(name, email, password, gender_id, create_at, update_at) VALUES($1, $2, $3, $4, now(), now())`
 
 func (a *authService) CreateUser(ctx context.Context, user models.Register) error {
-	duplicate := a.FindByEmail(ctx, user.Email)
+	duplicate := findByEmail(ctx, a.db, user.Email)
 	if duplicate == "duplicate" {
 		return fmt.Errorf("duplicate")
 	}
@@ -35,19 +34,21 @@ func (a *authService) CreateUser(ctx context.Context, user models.Register) erro
 	if err != nil {
 		return err
 	}
-	
+
 	return fmt.Errorf(duplicate)
 }
 
 const getByEmail = `SELECT email, password FROM users WHERE email = $1`
 
 func (a *authService) VerifyCredential(ctx context.Context, user models.Login) error {
+	var u models.Login
+	
 	pgx := a.db.QueryRow(ctx, getByEmail, user.Email)
-	u := new(models.Login)
 	err := pgx.Scan(&u.Email, &u.Password)
 	if err != nil {
 		return err
 	}
+
 	compare := comparePwd(u.Password, []byte(user.Password))
 	if !compare {
 		return fmt.Errorf("invalid credential")
@@ -55,16 +56,3 @@ func (a *authService) VerifyCredential(ctx context.Context, user models.Login) e
 	
 	return nil
 }
-
-const findByEmail = `SELECT email FROM users WHERE email = $1`
-
-func (a *authService) FindByEmail(ctx context.Context, email string) string {
-	pgx := a.db.QueryRow(ctx, findByEmail, email)
-	var user models.User
-	pgx.Scan(&user.Email)
-	if user.Email == email {
-		return "duplicate"
-	}
-	return ""
-}
-

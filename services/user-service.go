@@ -24,6 +24,7 @@ const getAll = `SELECT * FROM users ORDER BY id`
 
 func (u *userService) GetAll(ctx context.Context) ([]*models.User, error) {
 	var users []*models.User
+	
 	pgx, err := u.db.Query(ctx, getAll)
 	if err != nil {
 		return nil, err
@@ -37,14 +38,17 @@ func (u *userService) GetAll(ctx context.Context) ([]*models.User, error) {
 		}
 		users = append(users, &u)
 	}
+
 	return users, nil
 }
 
 const getById = `SELECT * FROM users WHERE id = $1`
 
 func (u *userService) GetById(ctx context.Context, id string) (models.User, error) {
-	pgx := u.db.QueryRow(ctx, getById, id)
 	var user models.User
+	
+	pgx := u.db.QueryRow(ctx, getById, id)
 	err := pgx.Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.GenderID, &user.CreateAt, &user.UpdateAt)
+	
 	return user, err
 }

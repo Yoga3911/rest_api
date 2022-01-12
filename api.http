@@ -9,8 +9,8 @@ POST http://127.0.0.1:8080/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "Yoga3911@gmail.com",
-    "password": "mantap"
+    "email": "yo@gmail.com",
+    "password": "yyooggaa2020"
 }
 
 ###
@@ -19,16 +19,17 @@ Content-Type: application/json
 
 {
     "name": "Yoga99",
-    "email": "Yoga131@gmail.com",
+    "email": "yo@gmail.com",
     "password": "yyooggaa2020",
     "gender_id": 2
 }
 
 ###
-PUT http://127.0.0.1:8080/api/profile/user/10
+PUT http://127.0.0.1:8080/api/profile/user
 Content-Type: application/json
 
 {
+    "id": 3,
     "name": "Yoga100",
     "email": "Yoga3911@gmail.com",
     "password": "mantap",
@@ -36,4 +37,9 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://127.0.0.1:8080/api/profile/user/2
+DELETE http://127.0.0.1:8080/api/profile/user
+Content-Type: application/json
+
+{
+    "id": 3
+}
