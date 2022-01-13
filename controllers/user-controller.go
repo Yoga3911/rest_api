@@ -1,10 +1,9 @@
 package controllers
 
 import (
+	"github.com/gofiber/fiber/v2"
 	"rest_api/helper"
 	"rest_api/services"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 type UserController interface {
@@ -22,7 +21,7 @@ func NewUserController(userS services.UserService) UserController {
 
 func (uc *userController) GetUser(c *fiber.Ctx) error {
 	id := c.Params("id")
-	
+
 	user, err := uc.userS.GetById(c.Context(), id)
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)

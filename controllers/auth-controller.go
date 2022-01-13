@@ -1,11 +1,10 @@
 package controllers
 
 import (
+	"github.com/gofiber/fiber/v2"
 	"rest_api/helper"
 	"rest_api/models"
 	"rest_api/services"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 type AuthController interface {
@@ -39,12 +38,6 @@ func (a *authController) Login(c *fiber.Ctx) error {
 		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
 	}
 
-	// claims := jwt.MapClaims{
-	// 	"email":  user.Email,
-	// 	"exp":   time.Now().Add(time.Hour * 72).Unix(),
-	// }
-	// token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	// t, _ := token.SignedString([]byte("secret"))
 	return helper.BuildResponse(c, fiber.StatusOK, "Login success", true, map[string]string{
 		"email": user.Email,
 		"token": t,

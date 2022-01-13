@@ -3,10 +3,9 @@ package config
 import (
 	"context"
 	"fmt"
-	"os"
-
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/joho/godotenv"
+	"os"
 )
 
 func DatabaseConnection() *pgxpool.Pool {

@@ -3,21 +3,21 @@ package services
 import (
 	"context"
 	"fmt"
-	"rest_api/models"
-
 	"github.com/go-playground/validator/v10"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"golang.org/x/crypto/bcrypt"
+	"rest_api/models"
 )
 
 type Validator struct {
 	Failed string
-	Tag string
-	Value interface{}
+	Tag    string
+	Value  interface{}
 }
 
 func StructValidator(user interface{}) []*Validator {
 	var errors []*Validator
+
 	validated := validator.New()
 	err := validated.Struct(user)
 	if err != nil {
@@ -36,7 +36,7 @@ const find = `SELECT email FROM users WHERE email = $1`
 
 func findByEmail(ctx context.Context, db *pgxpool.Pool, email string) string {
 	var user models.User
-	
+
 	pgx := db.QueryRow(ctx, find, email)
 	pgx.Scan(&user.Email)
 	if user.Email == email {
@@ -51,7 +51,7 @@ func hasAndSalt(pwd []byte) string {
 	if err != nil {
 		panic(err.Error())
 	}
-	
+
 	return string(hash)
 }
 

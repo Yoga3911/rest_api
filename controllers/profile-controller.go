@@ -1,11 +1,10 @@
 package controllers
 
 import (
+	"github.com/gofiber/fiber/v2"
 	"rest_api/helper"
 	"rest_api/models"
 	"rest_api/services"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 type ProfileController interface {
@@ -44,6 +43,27 @@ func (p *profileController) UpdateUser(c *fiber.Ctx) error {
 	return helper.BuildResponse(c, fiber.StatusOK, "Update success", true, nil)
 }
 
+func (p *profileController) UpdateUserByToken(c *fiber.Ctx) error {
+	var user models.UpdateUser
+
+	err := c.BodyParser(&user)
+	if err != nil {
+		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
+	}
+
+	errors := services.StructValidator(user)
+	if errors != nil {
+		return helper.BuildResponse(c, fiber.StatusBadRequest, errors, false, nil)
+	}
+
+	err = p.profileS.UpdateByToken(c, user)
+	if err != nil {
+		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
+	}
+
+	return helper.BuildResponse(c, fiber.StatusOK, "Update success", true, nil)
+}
+
 func (p *profileController) DeleteUser(c *fiber.Ctx) error {
 	var user models.User
 
@@ -72,25 +92,4 @@ func (p *profileController) DeleteUserByToken(c *fiber.Ctx) error {
 	}
 
 	return helper.BuildResponse(c, fiber.StatusOK, "Delete success", true, nil)
-}
-
-func (p *profileController) UpdateUserByToken(c *fiber.Ctx) error {
-	var user models.UpdateUser
-
-	err := c.BodyParser(&user)
-	if err != nil {
-		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
-	}
-
-	errors := services.StructValidator(user)
-	if errors != nil {
-		return helper.BuildResponse(c, fiber.StatusBadRequest, errors, false, nil)
-	}
-
-	err = p.profileS.UpdateByToken(c, user)
-	if err != nil {
-		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
-	}
-
-	return helper.BuildResponse(c, fiber.StatusOK, "Update success", true, nil)
 }

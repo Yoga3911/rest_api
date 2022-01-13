@@ -2,9 +2,8 @@ package services
 
 import (
 	"context"
-	"rest_api/models"
-
 	"github.com/jackc/pgx/v4/pgxpool"
+	"rest_api/models"
 )
 
 type UserService interface {
@@ -24,7 +23,7 @@ const getAll = `SELECT * FROM users ORDER BY id`
 
 func (u *userService) GetAll(ctx context.Context) ([]*models.User, error) {
 	var users []*models.User
-	
+
 	pgx, err := u.db.Query(ctx, getAll)
 	if err != nil {
 		return nil, err
@@ -46,9 +45,9 @@ const getById = `SELECT * FROM users WHERE id = $1`
 
 func (u *userService) GetById(ctx context.Context, id string) (models.User, error) {
 	var user models.User
-	
+
 	pgx := u.db.QueryRow(ctx, getById, id)
-	err := pgx.Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.GenderID, &user.Token ,&user.CreateAt, &user.UpdateAt)
-	
+	err := pgx.Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.GenderID, &user.Token, &user.CreateAt, &user.UpdateAt)
+
 	return user, err
 }
