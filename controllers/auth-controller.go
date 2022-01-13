@@ -23,34 +23,43 @@ func NewAuthController(authS services.AuthService) AuthController {
 
 func (a *authController) Login(c *fiber.Ctx) error {
 	var user models.Login
-	
+
 	err := c.BodyParser(&user)
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
 	}
 
-	errors := helper.ErrorHandler(user)
+	errors := services.StructValidator(user)
 	if errors != nil {
 		return helper.BuildResponse(c, fiber.StatusBadRequest, errors, false, nil)
 	}
 
-	err = a.authS.VerifyCredential(c.Context(), user)
+	t, err := a.authS.VerifyCredential(c.Context(), user)
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusConflict, err.Error(), false, nil)
 	}
 
-	return helper.BuildResponse(c, fiber.StatusOK, "Login success", true, nil)
+	// claims := jwt.MapClaims{
+	// 	"email":  user.Email,
+	// 	"exp":   time.Now().Add(time.Hour * 72).Unix(),
+	// }
+	// token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	// t, _ := token.SignedString([]byte("secret"))
+	return helper.BuildResponse(c, fiber.StatusOK, "Login success", true, map[string]string{
+		"email": user.Email,
+		"token": t,
+	})
 }
 
 func (a *authController) Register(c *fiber.Ctx) error {
 	var user models.Register
-	
+
 	err := c.BodyParser(&user)
 	if err != nil {
 		return helper.BuildResponse(c, fiber.StatusNotAcceptable, err.Error(), false, nil)
 	}
 
-	errors := helper.ErrorHandler(user)
+	errors := services.StructValidator(user)
 	if errors != nil {
 		return helper.BuildResponse(c, fiber.StatusBadRequest, errors, false, nil)
 	}

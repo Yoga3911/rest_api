@@ -2,15 +2,15 @@
 GET http://127.0.0.1:8080/api/users
 
 ###
-GET http://127.0.0.1:8080/api/user/3
+GET http://127.0.0.1:8080/api/user/7
 
 ###
 POST http://127.0.0.1:8080/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "yo@gmail.com",
-    "password": "yyooggaa2020"
+    "email": "eko@gmail.com",
+    "password": "mantap"
 }
 
 ###
@@ -19,9 +19,9 @@ Content-Type: application/json
 
 {
     "name": "Yoga99",
-    "email": "yo@gmail.com",
-    "password": "yyooggaa2020",
-    "gender_id": 2
+    "email": "eko@gmail.com",
+    "password": "123456",
+    "gender_id": 1
 }
 
 ###
@@ -29,10 +29,22 @@ PUT http://127.0.0.1:8080/api/profile/user
 Content-Type: application/json
 
 {
-    "id": 3,
-    "name": "Yoga100",
-    "email": "Yoga3911@gmail.com",
+    "id": 7,
+    "name": "ds",
+    "email": "ekoq@gmail.com",
     "password": "mantap",
+    "gender_id": 1
+}
+
+###
+PUT http://127.0.0.1:8080/api/profile/users
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjciLCJleHAiOjE2NDIxNzA1MjgsImlhdCI6MTY0MjA4NDEyOCwiaXNzIjoicXdlcnR5In0.HfrYhPuQBNJqLMcg3xacsXMfKA1nz-ChV8ywlY9teWg
+
+{
+    "name": "Penaldo",
+    "email": "p@gmail.com",
+    "password": "123456",
     "gender_id": 1
 }
 
@@ -41,5 +53,10 @@ DELETE http://127.0.0.1:8080/api/profile/user
 Content-Type: application/json
 
 {
-    "id": 3
+    "id": 7
 }
+
+###
+DELETE http://127.0.0.1:8080/api/profile/users
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgiLCJleHAiOjE2NDIxNzE3NTgsImlhdCI6MTY0MjA4NTM1OCwiaXNzIjoicXdlcnR5In0.zxvZkxgfZL5Ck-CKfiJmh9bT5vnktEQ9Nx-WJlNf6vQ

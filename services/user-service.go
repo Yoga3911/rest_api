@@ -32,7 +32,7 @@ func (u *userService) GetAll(ctx context.Context) ([]*models.User, error) {
 
 	for pgx.Next() {
 		var u models.User
-		err = pgx.Scan(&u.ID, &u.Name, &u.Email, &u.Password, &u.GenderID, &u.CreateAt, &u.UpdateAt)
+		err = pgx.Scan(&u.ID, &u.Name, &u.Email, &u.Password, &u.GenderID, &u.Token, &u.CreateAt, &u.UpdateAt)
 		if err != nil {
 			return nil, err
 		}
@@ -48,7 +48,7 @@ func (u *userService) GetById(ctx context.Context, id string) (models.User, erro
 	var user models.User
 	
 	pgx := u.db.QueryRow(ctx, getById, id)
-	err := pgx.Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.GenderID, &user.CreateAt, &user.UpdateAt)
+	err := pgx.Scan(&user.ID, &user.Name, &user.Email, &user.Password, &user.GenderID, &user.Token ,&user.CreateAt, &user.UpdateAt)
 	
 	return user, err
 }
