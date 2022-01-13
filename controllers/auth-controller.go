@@ -39,7 +39,6 @@ func (a *authController) Login(c *fiber.Ctx) error {
 	}
 
 	return helper.BuildResponse(c, fiber.StatusOK, "Login success", true, map[string]string{
-		"email": user.Email,
 		"token": t,
 	})
 }
