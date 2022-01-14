@@ -11,7 +11,7 @@ import (
 func main() {
 	defer routes.DB.Close()
 
-	ticker := time.NewTicker(5 * time.Second)
+	ticker := time.NewTicker(25 * time.Minute)
 	quit := make(chan struct{})
 	go func() {
 		for {
