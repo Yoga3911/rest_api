@@ -31,4 +31,10 @@ func Route(app *fiber.App) {
 	api.Put("/profile/users", profileC.UpdateUserByToken)
 	api.Delete("/profile/user", profileC.DeleteUser)
 	api.Delete("/profile/users", profileC.DeleteUserByToken)
+
+	api.Get("/check", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{
+			"message": "OK!",
+		})
+	})
 }
