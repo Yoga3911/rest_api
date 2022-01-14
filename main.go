@@ -13,7 +13,7 @@ import (
 func main() {
 	defer routes.DB.Close()
 
-	ticker := time.NewTicker(30 * time.Millisecond)
+	ticker := time.NewTicker(29 * time.Minute)
 	quit := make(chan struct{})
 	go func() {
 		for {
