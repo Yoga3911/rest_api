@@ -19,7 +19,7 @@ func DatabaseConnection() *pgxpool.Pool {
 	dbUser := os.Getenv("DB_USER")
 	dbPass := os.Getenv("DB_PASSWORD")
 	dbPort := os.Getenv("DB_PORT")
-	dsn := fmt.Sprintf("host=%s user=%s password=%s port=%s dbname=%s sslmode=disable TimeZone=Asia/Jakarta",dbHost, dbUser, dbPass, dbPort, dbName)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s port=%s dbname=%s sslmode=require TimeZone=Asia/Jakarta",dbHost, dbUser, dbPass, dbPort, dbName)
 
 	pgx, err := pgxpool.Connect(context.Background(), dsn)
 	if err != nil {
