@@ -11,13 +11,13 @@ import (
 func main() {
 	defer routes.DB.Close()
 
-	ticker := time.NewTicker(29 * time.Minute)
+	ticker := time.NewTicker(5 * time.Second)
 	quit := make(chan struct{})
 	go func() {
 		for {
 			select {
 			case <-ticker.C:
-				fmt.Println("Ping!")
+				fiber.Get("/")
 			case <-quit:
 				ticker.Stop()
 				return
