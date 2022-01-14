@@ -60,3 +60,38 @@ Content-Type: application/json
 DELETE http://127.0.0.1:8080/api/profile/users
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgiLCJleHAiOjE2NDIxNzE3NTgsImlhdCI6MTY0MjA4NTM1OCwiaXNzIjoicXdlcnR5In0.zxvZkxgfZL5Ck-CKfiJmh9bT5vnktEQ9Nx-WJlNf6vQ
+
+### TESTING DEPLOY API ###
+GET https://golang-restapi-39.herokuapp.com/api/users
+
+###
+POST https://golang-restapi-39.herokuapp.com/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Yoga",
+    "email": "yoga@gmail.com",
+    "password": "123456",
+    "gender_id": 1
+}
+
+###
+POST https://golang-restapi-39.herokuapp.com/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "yoga@gmail.com",
+    "password": "mantap"
+}
+
+###
+PUT https://golang-restapi-39.herokuapp.com/api/profile/users
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUiLCJleHAiOjE2NDIyMTkwODksImlhdCI6MTY0MjEzMjY4OSwiaXNzIjoicXdlcnR5In0.afGQRbQ4_N3S4mZO3K7EVgpvXBjH75ApSs402eL5ges
+
+{
+    "name": "Botak",
+    "email": "yoga@gmail.com",
+    "password": "mantap123",
+    "gender_id": 1
+}

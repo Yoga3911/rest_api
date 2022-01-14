@@ -1,9 +1,13 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"fmt"
+	"os"
 	"rest_api/routes"
+
+	"github.com/gofiber/fiber/v2"
 )
+
 //tes
 func main() {
 	defer routes.DB.Close()
@@ -12,5 +16,7 @@ func main() {
 		StreamRequestBody: true,
 	})
 	routes.Route(app)
-	app.Listen("127.0.0.1:8080")
+	p := os.Getenv("PORT")
+	p = fmt.Sprintf(":%v",p)
+	app.Listen(p)
 }
