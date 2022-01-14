@@ -11,18 +11,18 @@ import (
 func main() {
 	defer routes.DB.Close()
 
-	for range time.Tick(time.Minute * 30) {
-		fmt.Println("Ping!")
-	}
-
 	app := fiber.New(fiber.Config{
 		Prefork:           true,
 		StreamRequestBody: true,
 	})
-
+	
 	routes.Route(app)
 	p := os.Getenv("PORT")
-	p = fmt.Sprintf(":%v", p)
-
+	p = fmt.Sprintf(":%v",p)
+	
 	app.Listen(p)
+
+	for range time.Tick(time.Minute * 30) {
+		fmt.Println("Ping!")
+	}
 }
