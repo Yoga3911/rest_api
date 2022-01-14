@@ -9,7 +9,7 @@ POST http://127.0.0.1:8080/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "eko@gmail.com",
+    "email": "eko123@gmail.com",
     "password": "123456"
 }
 
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
     "name": "Yoga99",
-    "email": "eko@gmail.com",
+    "email": "eko123@gmail.com",
     "password": "123456",
     "gender_id": 1
 }
@@ -29,9 +29,9 @@ PUT http://127.0.0.1:8080/api/profile/user
 Content-Type: application/json
 
 {
-    "id": 7,
-    "name": "ds",
-    "email": "ekoq@gmail.com",
+    "id": 10,
+    "name": "dss",
+    "email": "p@gmail.com",
     "password": "mantap",
     "gender_id": 1
 }
@@ -39,10 +39,10 @@ Content-Type: application/json
 ###
 PUT http://127.0.0.1:8080/api/profile/users
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjciLCJleHAiOjE2NDIxNzA1MjgsImlhdCI6MTY0MjA4NDEyOCwiaXNzIjoicXdlcnR5In0.HfrYhPuQBNJqLMcg3xacsXMfKA1nz-ChV8ywlY9teWg
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwIiwiZXhwIjoxNjQyMjExNDgxLCJpYXQiOjE2NDIxMjUwODEsImlzcyI6InF3ZXJ0eSJ9.jDDoRMN-s6OALOJeOIB2bfjbs1x5M_vRpOtQ9pjwMX8
 
 {
-    "name": "Penaldo",
+    "name": "Penaldo Botak",
     "email": "p@gmail.com",
     "password": "123456",
     "gender_id": 1
