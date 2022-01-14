@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"rest_api/routes"
-	"time"
 	"github.com/gofiber/fiber/v2"
 )
 
