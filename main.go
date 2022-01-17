@@ -16,17 +16,13 @@ func main() {
 		StreamRequestBody: true,
 	})
 
-	ticker := time.NewTicker(25 * time.Minute)
+	ticker := time.NewTicker(28 * time.Minute)
 	quit := make(chan struct{})
 	go func() {
 		for {
 			select {
 			case <-ticker.C:
-				app.Get("/", func(c *fiber.Ctx) error {
-					return c.JSON(fiber.Map{
-						"message": "OK!",
-					})
-				})
+				fmt.Println("OKE!")
 			case <-quit:
 				ticker.Stop()
 				return
